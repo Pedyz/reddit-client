@@ -1,5 +1,4 @@
 .post {
-    margin-left: 100px;
     padding: 8px 18px;
     border-radius: 16px;
     cursor: pointer;
@@ -41,7 +40,19 @@
 
 .imgDiv {
     width: 724px;
-    height: 540px;
     border-radius: 16px;
     border: 1px solid rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    background-color: black;
+}
+
+.imgDiv img {
+    max-height: 540px;
+    max-width: 724px;
+}
+
+.imgDiv video {
+    height: 100%;
 }
