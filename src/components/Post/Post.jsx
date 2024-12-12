@@ -1,6 +1,8 @@
 import Style from './Post.module.css'
+import { useNavigate } from 'react-router-dom';
 
-function Post({data, name, text, imgUrl, videoUrl}) {
+function Post({data, name, text, imgUrl, videoUrl, subIcon}) {
+    const navigate = useNavigate()
 
     let option;
 
@@ -19,7 +21,7 @@ function Post({data, name, text, imgUrl, videoUrl}) {
         <div className={Style.imgDiv}>
             <img src={imgUrl} />
         </div> 
-    } else if (data.is_self) {
+    } else if (data?.is_self) {
         option = null
     } else {
         const previewImage = data?.preview?.images?.[0]?.source?.url?.replace(/&amp;/g, "&") || null;
@@ -31,9 +33,9 @@ function Post({data, name, text, imgUrl, videoUrl}) {
     }
 
     return (
-        <div className={Style.post}>
+        <div className={Style.post} onClick={() => navigate(`${data.permalink}`)} >
             <div className={Style.postInfo}>
-                <img src='images/reddit-logo.png' />
+                <img src={subIcon} />
                 <p>{name}</p>
             </div>
             <p className={Style.postText}>{text}</p>
