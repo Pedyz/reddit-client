@@ -1,52 +1,43 @@
 import Style from './Timeline.module.css'
 import Post from '../Post/Post'
-import { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { getHomePagePosts, getSearchPosts } from '../../app/slices/posts/postsSlice'
+import { useLocation } from 'react-router-dom'
+import { useEffect } from 'react'
+
 
 function Timeline() {
-    const [postsList, setPostsList] = useState([])
+    const { posts, status, error } = useSelector(state => state.posts)
+    const location = useLocation()
+    const dispatch = useDispatch()
 
     useEffect(() => {
-        getHomePagePostsInfo()
-    },[])
+        const queryParams = new URLSearchParams(location.search)
+        const query = queryParams.get("q")
 
-    const getHomePageJson = async () => {
-        const response = await fetch('https://www.reddit.com/.json')
-        const json = await response.json()
-        const data = json.data
+        if(query) {
+            dispatch(getSearchPosts(location.search))
+        } else {
+            dispatch(getHomePagePosts())
+        }
+    }, [dispatch, location.search])
 
-        return data
-    }
+    const filterPosts = () => {
+        if(status === 'loading') {
+            return <h2>Loading...</h2>
+        }
 
-    const getHomePagePostsInfo = async () => {
-        const posts = await getHomePageJson()
-
-        
-
-        const obj = posts.children.map(post => {
-            return {
-                data: post.data,
-                name: post.data.subreddit_name_prefixed,
-                text: post.data.title,
-                imgUrl: post.data.url,
-                videoUrl: post.data.media,
-                key: post.data.id
-        }})
-        console.log(posts)
-
-        console.log(obj)
-        setPostsList(obj)
-        return obj
-    }
+        return posts.map(post => (
+            <div>
+                <Post subIcon={post.subIcon} data={post.data} key={post.key} name={post.name} text={post.text} imgUrl={post.imgUrl} videoUrl={post.videoUrl && post.videoUrl.reddit_video ? post.videoUrl.reddit_video.fallback_url : null} />
+                <div className={Style.postDivider}></div>
+            </div>
+        ))
+    }    
 
     return (
         <div className={Style.timelineDiv}>
-            {postsList.map(post => (
-                <div>
-                    <Post data={post.data} key={post.key} name={post.name} text={post.text} imgUrl={post.imgUrl} videoUrl={post.videoUrl ? post.videoUrl.reddit_video.fallback_url : null} />
-                    <div className={Style.postDivider}></div>
-                </div>
-            ))}
-            
+            {filterPosts()}
         </div>
     )
 }
