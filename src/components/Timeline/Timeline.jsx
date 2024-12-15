@@ -24,7 +24,11 @@ function Timeline() {
 
     const filterPosts = () => {
         if(status === 'loading') {
-            return <h2>Loading...</h2>
+            return (
+                <div className={Style.loading}>
+                    <h2>Loading...</h2>
+                </div>
+            )
         }
 
         return posts.map(post => (

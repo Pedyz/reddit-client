@@ -30,7 +30,7 @@
     background-color: black;
 }
 
-.imgDiv img {
+.imgDiv img, .imgDiv video {
     max-height: 440px;
     max-width: 724px;
     user-select: none;
@@ -135,4 +135,9 @@
 
 .returnBtn:hover {
     background-color: rgba(0, 0, 0, 0.2);
+}
+
+.loading {
+    margin: 0 auto;
+    margin-top: 25px;
 }
