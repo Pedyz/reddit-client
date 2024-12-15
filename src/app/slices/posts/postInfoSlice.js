@@ -22,12 +22,13 @@ export const getPostData = createAsyncThunk(
         }
 
         const data = await getPostJson()
+        const previewImage = data?.preview?.images?.[0]?.source?.url?.replace(/&amp;/g, "&") || null;
         const info = {
             subRedditIcon: await getSubRedditIcon(data.subreddit_name_prefixed),
             subReddit: data.subreddit_name_prefixed,
             author: data.author,
             text: data.title,
-            imgUrl: data?.url,
+            imgUrl: data?.url ? data.url : previewImage,
             videoUrl: data?.media?.reddit_video?.fallback_url,
             data: data
         }

@@ -8,6 +8,7 @@ import upArrow from '../../images/arrow-up.png'
 import downArrow from '../../images/down-arrow.png'
 import balloon from '../../images/balloon.png'
 import leftArrow from '../../images/left-arrow.png'
+import SubRedditInfo from '../../components/SubRedditInfo/SubRedditInfo'
 
 function PostPage() {
     const { info, status } = useSelector(state => state.postInfo)
@@ -16,9 +17,14 @@ function PostPage() {
     const navigate = useNavigate()
     const pathname = location.pathname.slice(0, -1)    
 
-
-    const video = <video src={info?.videoUrl ? info.videoUrl : null}></video>
-    const image = <img src={info?.imgUrl ? info.imgUrl : null } />
+    const chooseMedia = () => {
+        if (info?.videoUrl) {
+            return <video src={info.videoUrl} controls className={Style.media} />
+        } else if (info?.imgUrl) {
+            return <img src={info.imgUrl} className={Style.media} />
+        }
+        return null
+    }
 
     useEffect(() => {
         dispatch(getPostData(pathname))        
@@ -26,7 +32,11 @@ function PostPage() {
 
     const renderPost = () => {
         if(status === 'loading') {
-            return <h2>Loading...</h2>
+            return (
+            <div className={Style.loading}>
+                <h2>Loading...</h2>
+            </div>
+        )
         }
 
         return (
@@ -43,7 +53,7 @@ function PostPage() {
                         </div>
                         <h2>{info.text}</h2>
                         <div className={Style.imgDiv}>
-                            {info?.videoUrl ? video : image }
+                            {chooseMedia()}
                         </div>
                         <div className={Style.likesDiv}>
                             <div className={Style.likesContainer}>
@@ -58,6 +68,7 @@ function PostPage() {
                         </div>
                     </div>
                 </main>
+                <SubRedditInfo />
             </div>
         )
     }
