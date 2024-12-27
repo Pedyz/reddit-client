@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import icon from '../../../images/reddit-logo.png'
 
 export const getHomePagePosts = createAsyncThunk(
     'posts/getHomePagePosts',
@@ -50,7 +51,7 @@ export const getSearchPosts = createAsyncThunk(
             const response = await fetch(`https://www.reddit.com/${sub}/about.json`);
             const json = await response.json();
             const data = json.data;
-            return data.icon_img || 'https://static-00.iconduck.com/assets.00/reddit-icon-2048x2048-ya82zt8l.png';
+            return data.icon_img || icon;
         }
 
         const postsData = await Promise.all(data.children.map(async post => {

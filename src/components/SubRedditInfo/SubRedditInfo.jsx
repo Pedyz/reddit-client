@@ -1,20 +1,30 @@
 import Style from './SubRedditInfo.module.css'
 import { useSelector } from 'react-redux'
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
+
 
 function SubRedditInfo() {
     const { info } = useSelector((state) => state.postInfo)
     const navigate = useNavigate()
 
-    useEffect(() => {  
-        changeSubRedditInfo()
-        changeSubs()
-        changeActiveUsers()
-    }, [info])
+    const location = useLocation()
 
+    useEffect(() => {  
+        const fetchSubRedditData = async () => {
+            const data = await getSubRedditInfo()
+            setSubRedditInfo(data)
+    
+            setSubs(formatNumber(data.subscribers))
+            setActiveUsers(formatNumber(data.accounts_active))
+        }
+        fetchSubRedditData()
+    }, [])
+    
     const getSubRedditInfo = async () => {
-        const response = await fetch(`https://www.reddit.com/${info.subReddit}/about.json`)
+        const separatedPathName = location.pathname.split('/')
+        const endPoint = separatedPathName[1] + "/" + separatedPathName[2] 
+        const response = await fetch(`https://www.reddit.com/${endPoint}/about.json`)
         const json = await response.json()
         const data = json.data
 
@@ -23,45 +33,13 @@ function SubRedditInfo() {
 
     const [subRedditInfo, setSubRedditInfo] = useState({})
 
-    const changeSubRedditInfo = async () => {
-        const obj = await getSubRedditInfo()
-
-        setSubRedditInfo(obj)
-    }
-
     const [subs, setSubs] = useState('')
     const [activeUsers, setActiveUsers] = useState('')
 
-    const changeSubs = async () => {
-        const obj = await getSubRedditInfo()
-
-        if (obj.subscribers > 999999) {
-            const num = obj.subscribers.toString()
-            const total = num.slice(0, -6)
-            setSubs(`${total} mi`)
-        } else if (obj.subscribers > 999) {
-            const num = obj.subscribers.toString()
-            const total = num.slice(0, -3)
-            setSubs(`${total}K`)
-        } else {
-            setSubs(obj.subscribers)
-        }
-    }
-
-    const changeActiveUsers = async () => {
-        const obj = await getSubRedditInfo()
-
-        if (obj.accounts_active > 999999) {
-            const num = obj.accounts_active.toString()
-            const total = num.slice(0, -6)
-            setActiveUsers(`${total} mi`)
-        } else if (obj.accounts_active > 999) {
-            const num = obj.accounts_active.toString()
-            const total = num.slice(0, -3)
-            setActiveUsers(`${total}K`)
-        } else {
-            setActiveUsers(obj.accounts_active)
-        }
+    const formatNumber = (num) => {
+        if (num > 999999) return `${(num / 1_000_000).toFixed(1)}Mi`
+        if (num > 999) return `${(num / 1_000).toFixed(1)}K`
+        return num
     }
 
     return (

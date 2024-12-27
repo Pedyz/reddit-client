@@ -9,6 +9,7 @@ import downArrow from '../../images/down-arrow.png'
 import balloon from '../../images/balloon.png'
 import leftArrow from '../../images/left-arrow.png'
 import SubRedditInfo from '../../components/SubRedditInfo/SubRedditInfo'
+import Comments from '../../components/Comments/Comments'
 
 function PostPage() {
     const { info, status } = useSelector(state => state.postInfo)
@@ -67,6 +68,7 @@ function PostPage() {
                             </div>
                         </div>
                     </div>
+                    <Comments />
                 </main>
                 <SubRedditInfo />
             </div>
