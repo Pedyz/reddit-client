@@ -12,7 +12,7 @@ export const getPostComments = createAsyncThunk(
             }
 
             const json = await response.json()
-            const comments = json[1].data.children
+            const comments = json[1].data.children.slice(0, 30)
 
             const commentsWithIcons = await Promise.all(
                 comments.map(async (comment) => {

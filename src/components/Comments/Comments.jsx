@@ -20,10 +20,6 @@ function Comments() {
         dispatch(getPostComments(result))
     },[result])
 
-    useEffect(() => {
-        console.log(info)
-    },[info])
-
     return (
         <div className={Style.topDiv}>
             {info && info.length > 0 ? (
