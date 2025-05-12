@@ -35,8 +35,8 @@ function Post({data, name, text, imgUrl, videoUrl, subIcon}) {
     return (
         <div className={Style.post} onClick={() => navigate(`${data.permalink}`)} >
             <div className={Style.postInfo}>
-                <img src={subIcon} />
-                <p>{name}</p>
+                <img src={subIcon} onClick={() => navigate(`${data.url}`)} />
+                <p onClick={() => navigate(`${data.url}`)}>{name}</p>
             </div>
             <p className={Style.postText}>{text}</p>
             {option}

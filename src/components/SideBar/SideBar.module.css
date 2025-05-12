@@ -16,21 +16,25 @@
 
 .firstList {
     margin-top: 10px;
+    width: 100%;
     list-style-type: none;
     display: flex;
     flex-direction: column;
-    text-align: center;
+    align-items: center;
 }
 
-.listItem {
+.listItem, .recentTitle {
     font-size: 18px;
+    text-align: center;
     text-decoration: none;
-    padding: 6px 60px;
+    padding: 6px 0;
+    width: 80%;
     border-radius: 8px;
+    cursor: pointer;
     transition: 1s;
 }
 
-.listItem:hover {
+.listItem:hover, .recentTitle:hover, .recentItem:hover {
     background-color: #191d21;
     transition: 0.5s;
 }
@@ -40,3 +44,43 @@
     width: 200px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
+
+.recentDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    width: 100%;
+    height: 500px;
+}
+
+.recentList {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+    width: 100%;
+    margin-top: 5px;
+    align-items: center;
+    overflow: hidden;
+    transition: 1s;
+}
+
+.recentItem {
+    list-style-type: none;
+    padding: 6px 0px;
+    width: 80%;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 1s;
+}
+
+.recentTitle {
+    font-size: 18px;
+    text-decoration: none;
+    padding: 6px 0;
+    width: 80%;
+    border-radius: 8px;
+    transition: 1s;
+}
+

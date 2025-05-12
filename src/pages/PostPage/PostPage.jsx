@@ -46,7 +46,7 @@ function PostPage() {
                 <main className={Style.mainDiv}>
                     <div className={Style.postDiv}>
                         <div className={Style.postInfo}>
-                            <img src={info.subRedditIcon} onClick={() => navigate(`${info.subReddit}`)} />
+                            <img src={info.subRedditIcon} onClick={() => navigate(`/${info.subReddit}`)} />
                             <div className={Style.postInfoTexts}>
                                 <p className={Style.subP} onClick={() => navigate(`/${info.subReddit}`)} >{info.subReddit}</p>
                                 <p>{info.author}</p>

@@ -33,7 +33,6 @@ export const getPostData = createAsyncThunk(
             data: data
         }
 
-        console.log(info)
         return info
     })
 
