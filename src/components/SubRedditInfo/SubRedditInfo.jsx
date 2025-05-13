@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 
 
-function SubRedditInfo() {
+function SubRedditInfo({size}) {
     const { info } = useSelector((state) => state.postInfo)
     const navigate = useNavigate()
 
@@ -43,7 +43,7 @@ function SubRedditInfo() {
     }
 
     return (
-        <div className={Style.topDiv}>
+        <div className={size === 'big' ? Style.bigTopDiv : Style.topDiv}>
             <h2 onClick={() => navigate(`/${info.subReddit}`)} >{info.subReddit}</h2>
             <div className={Style.subRedditDescription}>
                 <h4>{subRedditInfo?.title}</h4>

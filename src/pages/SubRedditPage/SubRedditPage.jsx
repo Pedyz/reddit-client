@@ -1,9 +1,12 @@
 import Style from './SubRedditPage.module.css'
-import { getSubRedditInfo } from '../../app/slices/subreddit/subRedditInfoSlice'
+import { getSubRedditInfo, getSubRedditPosts } from '../../app/slices/subreddit/subRedditInfoSlice'
 import { useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { addRecent } from '../../app/slices/recent/recentSlice'
+import SubRedditInfo from '../../components/SubRedditInfo/SubRedditInfo'
+import Post from '../../components/Post/Post'
+import purpleIcon from '../../images/reddit-logo.png'
 
 function SubRedditPage() {
     const location = useLocation()
@@ -11,11 +14,11 @@ function SubRedditPage() {
     const { info, posts, status } = useSelector(state => state.subRedditInfo)
     const path = location.pathname
     
-    
+    console.log(posts)
 
     useEffect(() => {
         dispatch(getSubRedditInfo(path))
-        
+        dispatch(getSubRedditPosts(path))
     }, [])
 
     useEffect(() => {
@@ -51,11 +54,11 @@ function SubRedditPage() {
                     </div>
                     <div className={Style.secondBlock}>
                         <div className={Style.postsBlock}>
-
+                            {posts?.map(post => 
+                                <Post data={post.data} name={post.data.name} text={post.data.title} imgUrl={post.data.url || purpleIcon} videoUrl={post.videoUrl} subIcon={post.data.icon_img || purpleIcon} />
+                            )}
                         </div>
-                        <div className={Style.infoBlock}>
-
-                        </div>
+                        <SubRedditInfo size='big' />
                     </div>
                 </div>
             )

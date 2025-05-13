@@ -28,7 +28,7 @@ export const getSubRedditInfo = createAsyncThunk(
     }
 ) 
 
-const getSubRedditPosts = createAsyncThunk(
+export const getSubRedditPosts = createAsyncThunk(
     'subreddit/getSubRedditPosts',
     async (pathname) => {
         const sub = pathname
